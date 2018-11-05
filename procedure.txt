@@ -28,4 +28,21 @@ END;
 insert into to_data(id,name) values(a,b); 
 
 
+UPDATE CIS_TRANSPORT_DETAILS SET status_id = 4 WHERE transport_details_id in (
+select td.transport_details_id from CIS_TRANSPORT_DETAILS td , CIS_TRANSPORT t where 
+t.TRANSPORTID = td.TRANSPORTID and t.status in (4,5) and td.status_id is NULL);
 
+
+UPDATE CIS_EVENT SET event_status = 50 WHERE event_id in (
+select e.event_id from CIS_EVENT e , CIS_TRANSPORT_DETAILS td 
+where e.category = 'ITT' and e.TABLENAME = 'CIS_TRANSPORT_DETAILS' 
+      AND ((e.event_status IN (20,6)) or (e.event_status  = 10 AND e.event_type 
+='FOLLOWUP' ))
+      AND e.column_id = td.TRANSPORT_DETAILS_id and td.status_id = 4);
+
+UPDATE CIS_EVENT SET event_status = 50 WHERE event_id in (      
+select e.event_id from CIS_EVENT e , CIS_TRANSPORT_DETAILS td 
+where e.category = 'ITT' and e.TABLENAME = 'CIS_TRANSPORT_DETAILS' 
+      AND ((e.event_status IN (20,6)) or (e.event_status  = 10 AND e.event_type ='FOLLOWUP' ))
+      AND e.column_id = td.TRANSPORT_DETAILS_id and e.event_status = 20
+      AND (td.IS_SCB_ACCEPTED_VESSEL != 1 or td.IS_TER_ACCEPTED_VESSEL != 1 or td.IS_PERFORMING_VESSEL != 1));
