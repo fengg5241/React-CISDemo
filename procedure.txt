@@ -1,0 +1,31 @@
+select td.transport_details_id from CIS_TRANSPORT_DETAILS td , CIS_TRANSPORT t where 
+t.TRANSPORTID = td.TRANSPORTID and t.status in (4,5) and td.status_id is NULL;
+
+select e.event_id from CIS_EVENT e , CIS_TRANSPORT_DETAILS td 
+where e.category = 'ITT' and e.TABLENAME = 'CIS_TRANSPORT_DETAILS' 
+      AND ((e.event_status IN (20,6)) or (e.event_status  = 10 AND e.event_type 
+='FOLLOWUP' ))
+      AND e.column_id = td.TRANSPORT_DETAILS_id and td.status_id = 4;
+
+CREATE OR REPLACE PROCEDURE UPDATE_TRANSPORT_DETAILS AS
+CURSOR cur is select td.* from CIS_TRANSPORT_DETAILS td , CIS_TRANSPORT t where 
+t.TRANSPORTID = td.TRANSPORTID and t.status in (4,5) and td.status_id is NULL ;
+BEGIN
+for row_record in cur 
+loop
+insert into CIS_TRANSPORT_DETAILS_AUDIT(TRANSPORT_DETAILS_ID,TRANSPORTID,STATUS_ID,PRODUCER,PRODUCER_COUNTRYID,
+ACTUAL_BUYER,BOL_ENDORSEE,SURVEYOR,CUSTODIAN,CUSTODIAN_COUNTRYID,LOADING_PORT,LOADING_PORT_COUNTRYID,VESSEL_NAME,
+VESSEL_IMO,VESSEL_OWNER,V_OWNER_COUNTRYID,VESSEL_FLAG,VESSEL_OPERATOR) values(a,b);
+
+end loop;
+END UPDATE_TRANSPORT_DETAILS;
+/
+DECLARE 
+BEGIN 
+    UPDATE_TRANSPORT_DETAILS();
+END;
+
+insert into to_data(id,name) values(a,b); 
+
+
+
