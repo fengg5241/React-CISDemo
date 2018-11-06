@@ -48,7 +48,69 @@ BEGIN
     UPDATE_TRANSPORT_DETAILS();
 END;
 
-insert into to_data(id,name) values(a,b); 
+CREATE OR REPLACE PROCEDURE UPDATE_EVENT1 AS
+CURSOR cur is select e.* from CIS_EVENT e , CIS_TRANSPORT_DETAILS td 
+where e.category = 'ITT' and e.TABLENAME = 'CIS_TRANSPORT_DETAILS' 
+      AND ((e.event_status IN (20,6)) or (e.event_status  = 10 AND e.event_type 
+='FOLLOWUP' ))
+      AND e.column_id = td.TRANSPORT_DETAILS_id and td.status_id = 4 ;
+BEGIN
+for row_record in cur 
+loop
+insert into CIS_EVENT(
+	AUDITCOMMENT,EVENT_ID,REF_EVENT_ID,EVENT_NAME,DESCRIPTION,
+	EVENT_TYPE,EVENT_STATUS,EVENT_GROUP_ID,SCREEN_IDENTIFIER,COLUMN_NAME,
+	COLUMN_ID,CATEGORY,EVENT_START_DATE,EVENT_END_DATE,TABLENAME,COMMENTS,
+	CHECKER_REQD,ISCHECKED,CHECKER,LAST_DATE,LAST_BY,CURRENTVERSION,
+	ASSIGNED_TO,ASSIGNED_BY,ASSIGNED_ON,ROOT_ID,ROOT_LEVEL
+) values(row_record.AUDITCOMMENT, row_record.EVENT_ID, row_record.REF_EVENT_ID, row_record.EVENT_NAME, 
+row_record.DESCRIPTION, row_record.EVENT_TYPE, row_record.EVENT_STATUS, row_record.EVENT_GROUP_ID, 
+row_record.SCREEN_IDENTIFIER, row_record.COLUMN_NAME, row_record.COLUMN_ID, row_record.CATEGORY, 
+row_record.EVENT_START_DATE, row_record.EVENT_END_DATE, row_record.TABLENAME, row_record.COMMENTS, 
+row_record.CHECKER_REQD, row_record.ISCHECKED, row_record.CHECKER, row_record.LAST_DATE, 
+row_record.LAST_BY, row_record.CURRENTVERSION, row_record.ASSIGNED_TO, row_record.ASSIGNED_BY, 
+row_record.ASSIGNED_ON, row_record.ROOT_ID, row_record.ROOT_LEVEL);
+
+end loop;
+END UPDATE_EVENT1;
+/
+DECLARE 
+BEGIN 
+    UPDATE_EVENT1();
+END;
+
+
+CREATE OR REPLACE PROCEDURE UPDATE_EVENT2 AS
+CURSOR cur is select e.* from CIS_EVENT e , CIS_TRANSPORT_DETAILS td 
+where e.category = 'ITT' and e.TABLENAME = 'CIS_TRANSPORT_DETAILS' 
+      AND ((e.event_status IN (20,6)) or (e.event_status  = 10 AND e.event_type ='FOLLOWUP' ))
+      AND e.column_id = td.TRANSPORT_DETAILS_id and e.event_status = 20
+      AND (td.IS_SCB_ACCEPTED_VESSEL != 1 or td.IS_TER_ACCEPTED_VESSEL != 1 or td.IS_PERFORMING_VESSEL != 1);
+BEGIN
+for row_record in cur 
+loop
+insert into CIS_EVENT(
+	AUDITCOMMENT,EVENT_ID,REF_EVENT_ID,EVENT_NAME,DESCRIPTION,
+	EVENT_TYPE,EVENT_STATUS,EVENT_GROUP_ID,SCREEN_IDENTIFIER,COLUMN_NAME,
+	COLUMN_ID,CATEGORY,EVENT_START_DATE,EVENT_END_DATE,TABLENAME,COMMENTS,
+	CHECKER_REQD,ISCHECKED,CHECKER,LAST_DATE,LAST_BY,CURRENTVERSION,
+	ASSIGNED_TO,ASSIGNED_BY,ASSIGNED_ON,ROOT_ID,ROOT_LEVEL
+) values(row_record.AUDITCOMMENT, row_record.EVENT_ID, row_record.REF_EVENT_ID, row_record.EVENT_NAME, 
+row_record.DESCRIPTION, row_record.EVENT_TYPE, row_record.EVENT_STATUS, row_record.EVENT_GROUP_ID, 
+row_record.SCREEN_IDENTIFIER, row_record.COLUMN_NAME, row_record.COLUMN_ID, row_record.CATEGORY, 
+row_record.EVENT_START_DATE, row_record.EVENT_END_DATE, row_record.TABLENAME, row_record.COMMENTS, 
+row_record.CHECKER_REQD, row_record.ISCHECKED, row_record.CHECKER, row_record.LAST_DATE, 
+row_record.LAST_BY, row_record.CURRENTVERSION, row_record.ASSIGNED_TO, row_record.ASSIGNED_BY, 
+row_record.ASSIGNED_ON, row_record.ROOT_ID, row_record.ROOT_LEVEL);
+
+end loop;
+END UPDATE_EVENT2;
+/
+DECLARE 
+BEGIN 
+    UPDATE_EVENT2();
+END;
+
 
 
 UPDATE CIS_TRANSPORT_DETAILS SET status_id = 4 WHERE transport_details_id in (
