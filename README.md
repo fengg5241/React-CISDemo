@@ -31,5 +31,9 @@ Set desired .xls filename and sheet
 Set desired class name and id for styling
 Supported IE 11
 
+https://www.npmjs.com/package/react-csv
+
+https://www.jqwidgets.com/react/react-datatable/react-datatable-keyboardnavigation.htm
+
 
 
