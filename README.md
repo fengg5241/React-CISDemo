@@ -17,4 +17,19 @@ react bootstrap table :https://allenfang.github.io/react-bootstrap-table/index.h
 
 Pivot grids:https://ej2.syncfusion.com/react/demos/#/bootstrap/pivot-view/exporting
 
+export only :
+https://www.npmjs.com/package/react-data-export
+Simple Excel Export
+Excel Export with Dataset
+Excel Export with Custom Download Button
+Excel Export with custom cells style
+
+https://www.npmjs.com/package/react-html-table-to-excel
+Download HTML table as Excel file in .xls format
+No server side code
+Set desired .xls filename and sheet
+Set desired class name and id for styling
+Supported IE 11
+
+
 
