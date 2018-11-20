@@ -13,4 +13,6 @@ https://sean-ww.github.io/react-redux-datatable/demo/?selectedKind=General%20Dem
 
 react-redux-datatable: https://www.npmjs.com/package/react-redux-datatable
 react bootstrap table :https://allenfang.github.io/react-bootstrap-table/index.html
+Pivot grids:https://ej2.syncfusion.com/react/demos/#/bootstrap/pivot-view/exporting
+
 
